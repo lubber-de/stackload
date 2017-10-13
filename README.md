@@ -27,25 +27,31 @@ stackLoad(filename|fileArray|fileObject|stackObject);
 You can stack multiple callbacks each having a bunch of files and individual callbacks using the appending `.then` method
 ```javascript
 stackLoad(...).then(filename|fileArray|fileObject|stackObject).then(...);
-```
+```  
 
-####Parameter
+
+#### Parameter
+
 The only Parameter stackLoad needs is either
 - a string of a filename
+
 ```javascript
 stackLoad('foo.js');
 ```
 - an array with strings of filenames
+
 ```javascript
 stackLoad(['foo.js','bar.css']);
 ```
 - a fileObject
+
 ```javascript
 stackLoad({
     url: 'foo.js'
 });
 ```
 - a stackObject with additional features like callback functions for (un)successful loads 
+
 ```javascript
 stackLoad({
     files: ['foo.js','bar.css'],
@@ -63,7 +69,7 @@ stackLoad({
 });
 ```
 
-####fileObject Properties
+#### fileObject Properties
 **url**: `string` (mandatory)
 
 **check**: `string` 
@@ -71,7 +77,7 @@ JS code as a string (! Because this could rely one some previous needed code loa
 
 **type**: `string` 'css'. Anything else is considered javascript. If omitted, stackLoad tries to guess it from a possible file extension. Otherwise assumes 'js' as default
 
-####stackObject Properties
+#### stackObject Properties
 **files**:  `string` | `array()` of strings | `fileObject` | `array()` of fileObjects  
 The files will be synchronously loaded in the order of the array. So take care of possible dependencies.  
     
@@ -86,7 +92,7 @@ The files will be synchronously loaded in the order of the array. So take care o
 > Internet Explorer does not trigger failing load events for **css** files!
   
 
-##Examples
+## Examples
 
 Load a file.
 ```javascript
@@ -209,7 +215,7 @@ stackLoad({
 });
 ```
 
-####Using the error method property
+#### Using the error method property
 > Internet Explorer does not trigger failing load events for **css** files!
 
 Do something in case a file is missing
@@ -235,5 +241,6 @@ stackLoad({
 });
 ```
 
-##License
+
+## License
  [GPL v3](/LICENSE)
