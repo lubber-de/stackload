@@ -14,8 +14,7 @@
         stopAll = false,
         stackLoadError = function(e) {
             if(window.console){
-                var isIE = document.documentMode;
-                console.log((isIE?'':'%c')+'[StackLoad Error] Missing file: '+(e.target.src? e.target.src : e.target.href),(isIE?'':'background:#800;color:#fff;font-weight:bold;padding:3px;'));
+                console.error('[StackLoad Error] Missing file: '+(e.target.src? e.target.src : e.target.href));
             }
             if(callBacks[0].error(e)===false){
                 stopAll = true;
