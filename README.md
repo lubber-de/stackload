@@ -142,21 +142,24 @@ stackLoad({
 
 Load jQuery only if not already available:
 ```javascript
-stackLoad([{
-    check: 'window.jQuery',
-    url: '//cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js'
-}],function(){
-    // jQuery is available now
-    $(function() {
-        // ...
-    });
+stackLoad({
+    files: {
+        check: 'window.jQuery',
+        url: '//cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js'
+    },
+    success: function(){
+        // jQuery is available now
+        $(function() {
+            // ...
+        };
+    }
 });
 
 ```
 
 
 
-Load Jquery and Semantic UI each having a different Callback using the `.then` method
+Load jQuery and Semantic UI each having a different Callback using the `.then` method
 ```javascript
 stackLoad({
     files: [{
