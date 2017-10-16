@@ -28,6 +28,9 @@
             eT.removeEventListener("error", stackLoadError);
             eT.removeEventListener("load", stackLoadDone);
             currentLoadIndex++;
+            if(eT.jsonp) {
+                eT.parentNode.removeChild(eT);
+            }
             if(!stopAll){
                 if(currentLoadIndex===callBacks[0].doneIndex) {
                     callBacks[0].success();
@@ -62,6 +65,9 @@
                         element.type = "text/javascript";
                         element.src = o.url;
                         element.async = false;
+                        if(o.type && o.type === 'jsonp') {
+                            element.jsonp = true;
+                        }
                     }
                     document.head.appendChild(element);
                     element.addEventListener("load", stackLoadDone);
@@ -90,6 +96,15 @@
                             var guessed = o.url.match(/\.([0-9a-zA-Z]+)(?:[?#]|$)/i);
                             if (guessed) {
                                 o.type = guessed[1].toLowerCase();
+                            }
+                        }
+                        if(o.type.toLowerCase()==='jsonp') {
+                            var dt= new Date().getTime()
+                            if (o.url.match(/\?/)) {
+                                o.url += "&_="+dt;
+                            }
+                            else {
+                                o.url += "?_="+dt;
                             }
                         }
                         cleanedStack.push(o);

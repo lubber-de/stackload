@@ -18,7 +18,7 @@ So this library is tiny enough to be embedded into your own single-js file libra
 
 1) Implement one script tag or copy the code on top of your own library.
 ```html
-<script src="stackload.min.js"></script>
+<script type="text/javascript" src="stackload.min.js"></script>
 ```
 2) Call it with an object of configuration. That's it
 ```javascript
@@ -72,10 +72,15 @@ stackLoad({
 #### fileObject Properties
 **url**: `string` (mandatory)
 
-**check**: `string` 
+**check**: `string`  
 JS code as a string (! Because this could rely one some previous needed code loaded by stackLoad before) as a dependency if code perhaps already exists. Can be omitted, the file will be loaded immediately then.)
 
-**type**: `string` 'css'. Anything else is considered javascript. If omitted, stackLoad tries to guess it from a possible file extension. Otherwise assumes 'js' as default
+**type**: `string`  
+If omitted, stackLoad tries to guess it from a possible file extension. Otherwise assumes 'js' as default. Other possible values are:
+- 'css'
+- 'jsonp'  
+Using jsonp assumes the url already has the probably needed callback function name as part of the url. stackLoad just adds a timestamp to the url to make sure it is not cached 
+- Anything else is considered javascript.
 
 #### stackObject Properties
 **files**:  `string` | `array()` of strings | `fileObject` | `array()` of fileObjects  
@@ -124,6 +129,14 @@ Loading URLs with unguessable file types which won't be JS files
 stackLoad({ 
         url:'http://domain.tld/folder/stylesheets/library@version',
         type: 'css'
+});
+```
+
+Loading jsonp
+```javascript
+stackLoad({ 
+        url:'http://domain.tld/foo/bar?callback=testfunc',
+        type: 'jsonp'
 });
 ```
 
