@@ -112,12 +112,12 @@
                     }
                 });
                 var cL=cleanedStack.length;
+                if (typeof stack.success !== 'function') {
+                    stack.success = function(){};
+                }
                 if(cL>0){
                     fullStack = fullStack.concat(cleanedStack);
                     var fL = fullStack.length;
-                    if (typeof stack.success !== 'function') {
-                        stack.success = function(){};
-                    }
                     if (typeof stack.error !== 'function') {
                         stack.error = function(){};
                     }
@@ -129,6 +129,8 @@
                     if(currentLoadIndex===fL-cL){
                         loadSingle();
                     }
+                } else {
+                    stack.success();
                 }
             }
         }
