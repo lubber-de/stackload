@@ -99,7 +99,7 @@
                             }
                         }
                         if(o.type.toLowerCase()==='jsonp') {
-                            var dt= new Date().getTime()
+                            var dt= new Date().getTime();
                             if (o.url.match(/\?/)) {
                                 o.url += "&_="+dt;
                             }
