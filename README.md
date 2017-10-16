@@ -1,8 +1,8 @@
-# stackLoad - A tiny synchronous JS/CSS module loader that simply does its job.
+# stackLoad - A tiny synchronous Javascript/JsonP/CSS module loader that simply does its job.
 ###### Marco "[Lubber](http://csdb.dk/scener/?id=124)" Wienkoop
 
 ## Features
-- Checks for particular JS Logic/existing Objects in order to prevent loading already existing code which was _not_ embedded using stackload
+- Checks for particular Javascript Logic/existing Objects in order to prevent loading already existing code which was _not_ embedded using stackload
 - Avoids multiple embedding of same files
 - Files will be stacked and loaded synchronously after each other and a callback can be given for each stack
 - Logs missing files to the console if supported
