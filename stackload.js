@@ -28,11 +28,13 @@
             eT.removeEventListener("error", stackLoadError);
             eT.removeEventListener("load", stackLoadDone);
             currentLoadIndex++;
-
             if(eT.jsonp && eT.parentNode) {
                 eT.parentNode.removeChild(eT);
             }
             if(!stopAll){
+                if(eT.href) {
+                    searchCssImport(document.styleSheets[document.styleSheets.length-1]);
+                }
                 if(currentLoadIndex===callBacks[0].doneIndex) {
                     callBacks[0].success();
                     callBacks.shift();
@@ -78,6 +80,9 @@
             catch (e) {}
         },
         setup = function(stack){
+            if(typeof stack === 'undefined') {
+                return;
+            }
             if(typeof stack === 'string' || stack.url){
                 stack = {files:[stack]};
             } else if(Array.isArray(stack)){
@@ -119,6 +124,7 @@
                 if(cL>0){
                     fullStack = fullStack.concat(cleanedStack);
                     var fL = fullStack.length;
+
                     if (typeof stack.error !== 'function') {
                         stack.error = function(){};
                     }
@@ -134,19 +140,33 @@
                     stack.success();
                 }
             }
+        },
+        searchCssImport = function(styleSheet) {
+            if (styleSheet.cssRules) {
+                for (var j = 0, jl = styleSheet.cssRules.length; j < jl; j++) {
+                    if (styleSheet.cssRules[j].href && registry.indexOf(styleSheet.cssRules[j].href)===-1) {
+                        registry.push(styleSheet.cssRules[j].href);
+                    }
+                }
+            }
         }
     ;
     window.stackLoad = function(stack) {
         stopAll=false;
         if(registry.length===0){
-            var elements = document.querySelectorAll('link,script'),i;
+            var elements = document.querySelectorAll('link,script'),i,il;
 //forEach on querySelectorAll not supported in IE/Edge, thus usual for loop
-            for (i=0;i<elements.length;i++) {
-                if(elements[i].src) {
+            for (i=0,il=elements.length;i<il;i++) {
+                if(elements[i].src && registry.indexOf(elements[i].src)===-1) {
                     registry.push(elements[i].src);
-                } else if (elements[i].href) {
+                } else if (elements[i].href && registry.indexOf(elements[i].href)===-1) {
                     registry.push(elements[i].href);
                 }
+            }
+//same for styleSheets, search for @import
+            var cssStyles = document.styleSheets;
+            for (i=0,il=cssStyles.length;i<il;i++) {
+                searchCssImport(cssStyles[i]);
             }
         }
         setup(stack);
