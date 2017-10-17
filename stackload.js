@@ -138,6 +138,17 @@
     ;
     window.stackLoad = function(stack) {
         stopAll=false;
+        if(registry.length===0){
+            var elements = document.querySelectorAll('link,script'),i;
+//forEach on querySelectorAll not supported in IE/Edge, thus usual for loop
+            for (i=0;i<elements.length;i++) {
+                if(elements[i].src) {
+                    registry.push(elements[i].src);
+                } else if (elements[i].href) {
+                    registry.push(elements[i].href);
+                }
+            }
+        }
         setup(stack);
         return {
             then: function(stack) {
