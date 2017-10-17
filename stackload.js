@@ -28,7 +28,8 @@
             eT.removeEventListener("error", stackLoadError);
             eT.removeEventListener("load", stackLoadDone);
             currentLoadIndex++;
-            if(eT.jsonp) {
+
+            if(eT.jsonp && eT.parentNode) {
                 eT.parentNode.removeChild(eT);
             }
             if(!stopAll){
