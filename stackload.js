@@ -13,18 +13,18 @@
         callBacks = [],
         stopAll = false,
         stackLoadError = function(e) {
+            var eT=e.target;
             if(window.console){
-                console.error('[StackLoad Error] Missing file: '+(e.target.src? e.target.src : e.target.href));
+                console.error('[StackLoad Error] Missing file: '+(eT.src? eT.src : eT.href));
             }
             if(callBacks[0].error(e)===false){
                 stopAll = true;
             }
-            var eT=e.target;
             eT.parentNode.removeChild(eT);
             stackLoadDone(e);
         },
         stackLoadDone = function(e){
-            var eT=e.target;
+            var eT=e.target,remainLost;
             eT.removeEventListener("error", stackLoadError);
             eT.removeEventListener("load", stackLoadDone);
             currentLoadIndex++;
@@ -43,7 +43,7 @@
                     loadSingle();
                 }
             } else {
-                var remainLost = callBacks[0].doneIndex-currentLoadIndex;
+                remainLost = callBacks[0].doneIndex-currentLoadIndex;
                 if (remainLost>0){
                     fullStack.splice(currentLoadIndex, remainLost);
                     callBacks.shift();
@@ -54,27 +54,26 @@
             }
         },
         loadSingle = function() {
-            var o=fullStack[currentLoadIndex];
+            var o=fullStack[currentLoadIndex],s;
             try {
                 if (!o.check || typeof eval(o.check) === 'undefined') {
-                    var element;
                     if (o.type && o.type === 'css') {
-                        element = document.createElement('link');
-                        element.type = "text/css";
-                        element.rel = "stylesheet";
-                        element.href = o.url;
+                        s = document.createElement('link');
+                        s.type = "text/css";
+                        s.rel = "stylesheet";
+                        s.href = o.url;
                     } else {    //js by default
-                        element = document.createElement('script');
-                        element.type = "text/javascript";
-                        element.src = o.url;
-                        element.async = false;
+                        s = document.createElement('script');
+                        s.type = "text/javascript";
+                        s.src = o.url;
+                        s.async = false;
                         if(o.type && o.type === 'jsonp') {
-                            element.jsonp = true;
+                            s.jsonp = true;
                         }
                     }
-                    document.head.appendChild(element);
-                    element.addEventListener("load", stackLoadDone);
-                    element.addEventListener("error", stackLoadError);
+                    document.head.appendChild(s);
+                    s.addEventListener("load", stackLoadDone);
+                    s.addEventListener("error", stackLoadError);
                 }
             }
             catch (e) {}
@@ -154,7 +153,7 @@
     window.stackLoad = function(stack) {
         stopAll=false;
         if(registry.length===0){
-            var elements = document.querySelectorAll('link,script'),i,il;
+            var elements = document.querySelectorAll('link,script'),i,il,cssStyles = document.styleSheets;
 //forEach on querySelectorAll not supported in IE/Edge, thus usual for loop
             for (i=0,il=elements.length;i<il;i++) {
                 if(elements[i].src && registry.indexOf(elements[i].src)===-1) {
@@ -164,7 +163,6 @@
                 }
             }
 //same for styleSheets, search for @import
-            var cssStyles = document.styleSheets;
             for (i=0,il=cssStyles.length;i<il;i++) {
                 searchCssImport(cssStyles[i]);
             }
