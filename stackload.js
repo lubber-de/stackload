@@ -141,13 +141,16 @@
             }
         },
         searchCssImport = function(styleSheet) {
-            if (styleSheet.cssRules) {
-                for (var j = 0, jl = styleSheet.cssRules.length; j < jl; j++) {
-                    if (styleSheet.cssRules[j].href && registry.indexOf(styleSheet.cssRules[j].href)===-1) {
-                        registry.push(styleSheet.cssRules[j].href);
+            try {
+                if (styleSheet.cssRules) {
+                    for (var j = 0, jl = styleSheet.cssRules.length; j < jl; j++) {
+                        if (styleSheet.cssRules[j].href && registry.indexOf(styleSheet.cssRules[j].href)===-1) {
+                            registry.push(styleSheet.cssRules[j].href);
+                        }
                     }
                 }
             }
+            catch(e){}
         }
     ;
     window.stackLoad = function(stack) {
