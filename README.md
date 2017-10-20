@@ -73,7 +73,14 @@ stackLoad({
 **url**: `string` (mandatory)
 
 **check**: `string`  
-JS code as a string (! Because this could rely one some previous needed code loaded by stackLoad before) as a dependency if code perhaps already exists. Can be omitted, the file will be loaded immediately then.)
+JS code as a string (! Because this could rely one some previous needed code loaded by stackLoad before) as a dependency if code perhaps already exists.
+- The (last) statement of the code needs to **end with an expression** (`var a=1,b=2;b<0;`) and _**not**_ a return statement (`var a=1,b=2;return b<0;`). If that expression is either undefined/false/null then the appropriate file will be loaded
+- stackLoad has a little internal helper to get css style properties of a selector path. Just use the function `cssProperties()` within your JS Code
+```javascript
+//cssProperties takes a css selector string and returns all style-object properties
+    check: 'cssProperties("ui multiple foo bar classnames").backgroundImage==="none'
+```
+- Can be omitted, the file will be loaded immediately then.)
 
 **type**: `string`  
 If omitted, stackLoad tries to guess it from a possible file extension. Otherwise assumes 'js' as default. Other possible values are:
@@ -199,6 +206,19 @@ stackLoad({
     }
 });
 ```
+
+Check for a specific CSS property in order to load a css file (to not only rely on the filename)  
+In this example a HTML tag with assigned class "ui popup" should have an z-index of 1900 if semantic ui css is already available 
+```javascript
+stackLoad({
+    files: [{
+        check: 'parseInt(cssProperties("ui popup").zIndex,10)===1900',
+        type:'css',
+        url:'//cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css'
+    }]
+});
+```
+
 
 
 Load Jquery, but load Semantic UI at a later stage and ignore already loaded libraries

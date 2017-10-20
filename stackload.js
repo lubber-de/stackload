@@ -12,11 +12,19 @@
         currentLoadIndex = 0,
         callBacks = [],
         stopAll = false,
+        continueStack = function(){
+            currentLoadIndex++;
+            if(currentLoadIndex===callBacks[0].doneIndex) {
+                callBacks[0].success();
+                callBacks.shift();
+            }
+            if (currentLoadIndex !== fullStack.length && !stopAll) {
+                loadSingle();
+            }
+        },
         stackLoadError = function(e) {
             var eT=e.target;
-            if(window.console){
-                console.error('[StackLoad Error] Missing file: '+(eT.src? eT.src : eT.href));
-            }
+            console.error('[StackLoad Error] Missing file: '+(eT.src? eT.src : eT.href));
             if(callBacks[0].error(e)===false){
                 stopAll = true;
             }
@@ -27,7 +35,6 @@
             var eT=e.target,remainLost;
             eT.removeEventListener("error", stackLoadError);
             eT.removeEventListener("load", stackLoadDone);
-            currentLoadIndex++;
             if(eT.jsonp && eT.parentNode) {
                 eT.parentNode.removeChild(eT);
             }
@@ -35,15 +42,9 @@
                 if(eT.href) {
                     searchCssImport(document.styleSheets[document.styleSheets.length-1]);
                 }
-                if(currentLoadIndex===callBacks[0].doneIndex) {
-                    callBacks[0].success();
-                    callBacks.shift();
-                }
-                if (currentLoadIndex !== fullStack.length && !stopAll) {
-                    loadSingle();
-                }
+                continueStack();
             } else {
-                remainLost = callBacks[0].doneIndex-currentLoadIndex;
+                remainLost = callBacks[0].doneIndex-(++currentLoadIndex);
                 if (remainLost>0){
                     fullStack.splice(currentLoadIndex, remainLost);
                     callBacks.shift();
@@ -56,7 +57,7 @@
         loadSingle = function() {
             var o=fullStack[currentLoadIndex],s;
             try {
-                if (!o.check || typeof eval(o.check) === 'undefined') {
+                if (!o.check || (o.check!=='' && !eval(o.check))) {
                     if (o.type && o.type === 'css') {
                         s = document.createElement('link');
                         s.type = "text/css";
@@ -74,9 +75,14 @@
                     document.head.appendChild(s);
                     s.addEventListener("load", stackLoadDone);
                     s.addEventListener("error", stackLoadError);
+                } else {
+                    continueStack();
                 }
             }
-            catch (e) {}
+            catch (e) {
+                console.error(e);
+                continueStack();
+            }
         },
         setup = function(stack){
             if(typeof stack === 'undefined') {
@@ -151,6 +157,15 @@
                 }
             }
             catch(e){}
+        },
+        cssProperties = function(c) {
+            var s=document.createElement("div"),x;
+//            s.style.display="none";
+            s.className=c;
+            document.body.appendChild(s);
+            x=window.getComputedStyle(s);
+            s.parentNode.removeChild(s);
+            return x;
         }
     ;
     window.stackLoad = function(stack) {
