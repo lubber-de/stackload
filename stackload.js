@@ -163,7 +163,7 @@
 //            s.style.display="none";
             s.className=c;
             document.body.appendChild(s);
-            x=window.getComputedStyle(s);
+            x=JSON.parse(JSON.stringify(window.getComputedStyle(s)));
             s.parentNode.removeChild(s);
             return x;
         }
