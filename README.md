@@ -76,6 +76,7 @@ stackLoad({
 JS code as a string (! Because this could rely one some previous needed code loaded by stackLoad before) as a dependency if code perhaps already exists.
 - The (last) statement of the code needs to **end with an expression** (`var a=1,b=2;b<0;`) and _**not**_ a return statement (`var a=1,b=2;return b<0;`). If that expression is either undefined/false/null then the appropriate file will be loaded
 - stackLoad has a little internal helper to get css style properties of a selector path. Just use the function `cssProperties()` within your JS Code
+
 ```javascript
 //cssProperties takes a css selector string and returns all style-object properties
     check: 'cssProperties("ui multiple foo bar classnames").backgroundImage==="none'
