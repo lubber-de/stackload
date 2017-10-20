@@ -79,7 +79,7 @@ JS code as a string (! Because this could rely one some previous needed code loa
 
 ```javascript
 //cssProperties takes a css selector string and returns all style-object properties
-    check: 'cssProperties("ui multiple foo bar classnames").backgroundImage==="none'
+    check: 'cssProperties("ui multiple foo bar classnames").backgroundImage==="none"'
 ```
 - Can be omitted, the file will be loaded immediately then.)
 
