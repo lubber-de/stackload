@@ -1,5 +1,13 @@
 # stackLoad - A tiny synchronous Javascript/JsonP/CSS module loader that simply does its job.
 ###### Marco "[Lubber](http://csdb.dk/scener/?id=124)" Wienkoop
+![version](https://img.shields.io/github/tag/lubber-de/stackload.svg)  
+![size_gzip](https://badges.herokuapp.com/size/github/lubber-de/stackload/master/stackload.min.js?gzip=true)
+![size](https://badges.herokuapp.com/size/github/lubber-de/stackload/master/stackload.min.js)  
+![browsers](https://badges.herokuapp.com/browsers?&microsoftedge=12,13,14%2b&googlechrome=All&versionDivider=true)
+![browsers](https://badges.herokuapp.com/browsers?firefox=All&iexplore=-8,9,10,11&versionDivider=true)
+![mobile](https://badges.herokuapp.com/browsers?android=-4.4,4.4.3,5%2b&iphone=5%2b&ipad=3%2b&versionDivider=true)
+![mobile](https://badges.herokuapp.com/browsers?safari=5%2b&opera=10.5%2b&versionDivider=true)  
+![license](https://img.shields.io/github/license/lubber-de/stackload.svg)  
 
 ## Features
 - Checks for particular Javascript Logic/existing Objects in order to prevent loading already existing code which was _not_ embedded using stackload
