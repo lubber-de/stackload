@@ -288,4 +288,4 @@ stackLoad({
 
 
 ## License
- [GPL v3](/LICENSE)
+ [MIT](/LICENSE)
