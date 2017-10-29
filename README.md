@@ -93,10 +93,13 @@ JS code as a string (! Because this could rely one some previous needed code loa
 
 **type**: `string`  
 If omitted, stackLoad tries to guess it from a possible file extension. Otherwise assumes 'js' as default. Other possible values are:
-- 'css'
-- 'jsonp'  
+- `css`
+- `jsonp`  
 Using jsonp assumes the url already has the probably needed callback function name as part of the url. stackLoad just adds a timestamp to the url to make sure it is not cached 
 - Anything else is considered javascript.
+
+**noCache**: `boolean`  
+Set to true if you definately want to skip cache-load for the file and force redownloading from the server
 
 #### stackObject Properties
 **files**:  `string` | `array()` of strings | `fileObject` | `array()` of fileObjects  
@@ -153,6 +156,14 @@ Loading jsonp
 stackLoad({ 
         url:'http://domain.tld/foo/bar?callback=testfunc',
         type: 'jsonp'
+});
+```
+
+Prevent Caching / Force Server reload (automatically enabled for jsonp files)
+```javascript
+stackLoad({ 
+        url:'http://domain.tld/foo/bar.js',
+        noCache: true
 });
 ```
 

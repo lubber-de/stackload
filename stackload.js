@@ -109,7 +109,7 @@
                                 o.type = guessed[1].toLowerCase();
                             }
                         }
-                        if(o.type.toLowerCase()==='jsonp') {
+                        if(o.type.toLowerCase()==='jsonp' || o.noCache) {
                             var dt= new Date().getTime();
                             if (o.url.match(/\?/)) {
                                 o.url += "&_="+dt;
