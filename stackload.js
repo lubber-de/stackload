@@ -3,7 +3,7 @@
  *
  * @link       https://gitlab.com/lubber/stackload
  * @copyright  Copyright (c) 2017 Marco 'Lubber' Wienkoop
- * @license    GPLv3 https://gitlab.com/lubber/stackload/blob/master/LICENSE
+ * @license    MIT https://gitlab.com/lubber/stackload/blob/master/LICENSE
 
  */
 ;(function (window,document) {
