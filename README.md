@@ -199,12 +199,12 @@ stackLoad({
 
 
 
-Load jQuery and Semantic UI each having a different Callback using the `.then` method
+Load jQuery and [Fomantic UI](https://fomantic-ui.com) each having a different Callback using the `.then` method
 ```javascript
 stackLoad({
     files: [{
         check: 'window.jQuery',
-        url: '//cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js'
+        url: '//cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js'
     }],
     success: function(){
         // jQuery is available now
@@ -215,37 +215,37 @@ stackLoad({
 }).then({
     files: [{
         type:'css',
-        url:'//cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css'
+        url:'//cdn.jsdelivr.net/npm/fomantic-ui@nightly/dist/semantic.min.css'
     },{
         check: 'jQuery().modal',
-        url: '//cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js'
+        url: '//cdn.jsdelivr.net/npm/fomantic-ui@nightly/dist/semantic.min.js'
     }],
     success: function(){
-    // Semantic UI is also available now
+    // Fomantic UI is also available now
         $('#gallery').modal('show');
     }
 });
 ```
 
 Check for a specific CSS property in order to load a css file (to not only rely on the filename)  
-In this example a HTML tag with assigned class "ui popup" should have an z-index of 1900 if semantic ui css is already available 
+In this example a HTML tag with assigned class "ui popup" should have an z-index of 1900 if fomantic ui css is already available 
 ```javascript
 stackLoad({
     files: [{
         check: 'parseInt(cssProperties("ui popup").zIndex,10)===1900',
         type:'css',
-        url:'//cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css'
+        url:'//cdn.jsdelivr.net/npm/fomantic-ui@nightly/dist/semantic.min.css'
     }]
 });
 ```
 
 
 
-Load Jquery, but load Semantic UI at a later stage and ignore already loaded libraries
+Load jQuery, but load [Fomantic UI](https://fomantic-ui.com) at a later stage and ignore already loaded libraries
 ```javascript
 stackLoad({
     check: 'window.jQuery',
-    url: '//cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js'
+    url: '//cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js'
 });
 
 // ...
@@ -256,16 +256,16 @@ stackLoad({
 // so it will skip loading jQuery from the same url again.
 stackLoad({
     files: [
-    '//cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js',
+    '//cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js',
     {
          type:'css',
-         url:'//cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.css'
+         url:'//cdn.jsdelivr.net/npm/fomantic-ui@nightly/dist/semantic.min.css'
     },{
          check: 'jQuery().modal',
-         url: '//cdn.jsdelivr.net/npm/semantic-ui@2.2.13/dist/semantic.min.js'
+         url: '//cdn.jsdelivr.net/npm/fomantic-ui@nightly/dist/semantic.min.js'
     }],
     success: function(){
-     // Semantic UI is also available now
+     // Fomantic UI is also available now
          $('#gallery').modal('show');
     }
 });
