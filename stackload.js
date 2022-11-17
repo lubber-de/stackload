@@ -1,10 +1,10 @@
 /**
  * StackLoad - A tiny JS/CSS module loader that simply does its job.
  *
- * @link       https://gitlab.com/lubber/stackload
- * @copyright  Copyright (c) 2017 Marco 'Lubber' Wienkoop
- * @license    MIT https://gitlab.com/lubber/stackload/blob/master/LICENSE
-
+ * @version    1.1.0
+ * @link       https://github.com/lubber-de/stackload
+ * @copyright  Copyright (c) 2022 Marco 'Lubber' Wienkoop
+ * @license    MIT https://github.com/lubber-de/stackload/blob/master/LICENSE
  */
 ;(function (window,document) {
     var registry = [],
@@ -33,8 +33,8 @@
         },
         stackLoadDone = function(e){
             var eT=e.target,remainLost;
-            eT.removeEventListener("error", stackLoadError);
-            eT.removeEventListener("load", stackLoadDone);
+            eT.removeEventListener('error', stackLoadError);
+            eT.removeEventListener('load', stackLoadDone);
             if(eT.jsonp && eT.parentNode) {
                 eT.parentNode.removeChild(eT);
             }
@@ -60,12 +60,12 @@
                 if (!o.check || (o.check!=='' && !eval(o.check))) {
                     if (o.type && o.type === 'css') {
                         s = document.createElement('link');
-                        s.type = "text/css";
-                        s.rel = "stylesheet";
+                        s.type = 'text/css';
+                        s.rel = 'stylesheet';
                         s.href = o.url;
                     } else {    //js by default
                         s = document.createElement('script');
-                        s.type = "text/javascript";
+                        s.type = 'text/javascript';
                         s.src = o.url;
                         s.async = false;
                         if(o.type && o.type === 'jsonp') {
@@ -73,8 +73,8 @@
                         }
                     }
                     document.head.appendChild(s);
-                    s.addEventListener("load", stackLoadDone);
-                    s.addEventListener("error", stackLoadError);
+                    s.addEventListener('load', stackLoadDone);
+                    s.addEventListener('error', stackLoadError);
                 } else {
                     continueStack();
                 }
@@ -102,6 +102,9 @@
                     if(typeof o === 'string'){
                         o = {url: o};
                     }
+                    if(o.url.match(/^(@[a-z0-9-]+\/)?[a-z0-9-]+@[0-9]+(\.[0-9]+)?(\.[0-9]+)?(-[0-9a-z-]+(\.[0-9a-z-]+)?)?(\/.*)?/i)){
+                        o.url = 'https://cdn.jsdelivr.net/npm/'+o.url;
+                    }
                     if(o.url && registry.indexOf(o.url)===-1) {
                         if(!o.type){
                             var guessed = o.url.match(/\.([0-9a-zA-Z]+)(?:[?#]|$)/i);
@@ -109,13 +112,13 @@
                                 o.type = guessed[1].toLowerCase();
                             }
                         }
-                        if(o.type.toLowerCase()==='jsonp' || o.noCache) {
+                        if((o.type && o.type.toLowerCase()==='jsonp') || o.noCache) {
                             var dt= new Date().getTime();
                             if (o.url.match(/\?/)) {
-                                o.url += "&_="+dt;
+                                o.url += '&_='+dt;
                             }
                             else {
-                                o.url += "?_="+dt;
+                                o.url += '?_='+dt;
                             }
                         }
                         cleanedStack.push(o);
@@ -159,8 +162,8 @@
             catch(e){}
         },
         cssProperties = function(c) {
-            var s=document.createElement("div"),x;
-//            s.style.display="none";
+            var s=document.createElement('div'),x;
+//            s.style.display='none';
             s.className=c;
             document.body.appendChild(s);
             x=JSON.parse(JSON.stringify(window.getComputedStyle(s)));
@@ -193,4 +196,13 @@
             }
         };
     };
+    var currentScript = document.currentScript || document.getElementById('stackload'),autoload;
+    if(currentScript) {
+        autoload = decodeURIComponent(currentScript.src).split(/[?&]autoload=([^&]*)/);
+        if(autoload.length>1){
+            stackLoad(autoload[1].match(/^[\[{].*[\]}]$/) ? JSON.parse(autoload[1],function(k,v){
+                return (k==='success'||k==='error'?eval(v):v)
+            }) : autoload[1]);
+        }
+    }
 })(window,document);

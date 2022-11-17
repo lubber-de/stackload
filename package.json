@@ -1,0 +1,27 @@
+{
+  "name": "stackLoad",
+  "version": "1.1.0",
+  "description": "A tiny synchronous Javascript/JsonP/CSS module loader that simply does its job",
+  "author": {
+    "name" : "Marco 'Lubber' Wienkoop",
+    "email" : "c64@lubber.de",
+    "url" : "https://github.com/lubber-de"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/lubber-de/stackload",
+  "keywords": [
+    "javascript",
+    "jsonp",
+    "css",
+    "module-loader",
+    "synchronous",
+    "dependency",
+    "cdn",
+    "vanilla",
+    "detection"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/lubber-de/stackload.git"
+  }
+}

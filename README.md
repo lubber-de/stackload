@@ -17,9 +17,11 @@
 - Could cancel the whole stackload if just one file is missing
 - Guesses filetypes
 - Dynamic parameter handling
+- supports npm semver package naming and loads from jsdelivr 
+- can autoload by a single stackload inclusion using a GET parameter
 - Vanilla Javascript: Does not need other libraries itself :)
 
-This small library is especially useful if you want to provide something in one single js file without copying all dependency libraries into it, but still rely on external resources/CDNs, so your single js file stays small and the user does not need to implement or even know what other dependencies are needed to be embedded  
+This small library is especially useful if you want to provide something in one single js file without copying all dependency libraries into it, but still rely on external resources/CDNs, so your single js file stays small and the user does not need to implement or even know what other dependencies are needed to be embedded.  
 So this library is tiny enough to be embedded into your own single-js file library
 
 ## Usage
@@ -37,6 +39,11 @@ You can stack multiple callbacks each having a bunch of files and individual cal
 stackLoad(...).then(filename|fileArray|fileObject|stackObject).then(...);
 ```  
 
+You can autoload files while including the stackload script
+```html
+<script type="text/javascript" src="stackload.min.js?autoload=fomantic-ui@2.9.0/dist/semantic.min.css"></script>
+```
+
 
 #### Parameter
 
@@ -45,6 +52,8 @@ The only Parameter stackLoad needs is either
 
 ```javascript
 stackLoad('foo.js');
+// use npm package nameing and stackload will load from jsdelivr CDN automatically
+stackLoad('fomantic-ui@2.9.0');
 ```
 - an array with strings of filenames
 
