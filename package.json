@@ -1,5 +1,5 @@
 {
-  "name": "stackLoad",
+  "name": "stackload",
   "version": "1.1.0",
   "description": "A tiny synchronous Javascript/JsonP/CSS module loader that simply does its job",
   "author": {
