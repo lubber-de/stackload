@@ -23,5 +23,15 @@
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/lubber-de/stackload.git"
+  },
+  "scripts": {
+    "eslint": "eslint --ext .js .",
+    "eslint-fix": "eslint --ext .js . --fix"
+  },
+  "devDependencies": {
+    "eslint": "^8.29.0",
+    "eslint-config-airbnb-base": "15",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-unicorn": "56"
   }
 }

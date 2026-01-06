@@ -1,16 +1,16 @@
-# stackLoad - A tiny synchronous Javascript/JsonP/CSS module loader that simply does its job.
+# stackLoad - A tiny synchronous JavaScript/JsonP/CSS module loader that simply does its job.
 ###### Marco "[Lubber](http://csdb.dk/scener/?id=124)" Wienkoop
 ![version](https://img.shields.io/github/tag/lubber-de/stackload.svg)  
 ![size_gzip](https://badges.herokuapp.com/size/github/lubber-de/stackload/master/stackload.min.js?gzip=true)
 ![size](https://badges.herokuapp.com/size/github/lubber-de/stackload/master/stackload.min.js)  
-![browsers](https://badges.herokuapp.com/browsers?&microsoftedge=12,13,14%2b&googlechrome=All&versionDivider=true)
-![browsers](https://badges.herokuapp.com/browsers?firefox=All&iexplore=-8,9,10,11&versionDivider=true)
-![mobile](https://badges.herokuapp.com/browsers?android=-4.4,4.4.3,5%2b&iphone=5%2b&ipad=3%2b&versionDivider=true)
-![mobile](https://badges.herokuapp.com/browsers?safari=5%2b&opera=10.5%2b&versionDivider=true)  
+![browsers](https://badges.herokuapp.com/browsers?&microsoftedge=80%2b&googlechrome=80%2b&versionDivider=true)
+![browsers](https://badges.herokuapp.com/browsers?firefox=72%2b&versionDivider=true)
+![mobile](https://badges.herokuapp.com/browsers?android=-8%2b&iphone=7%2b&ipad=4%2b&versionDivider=true)
+![mobile](https://badges.herokuapp.com/browsers?safari=13.4%2b&opera=13%2b&versionDivider=true)  
 ![license](https://img.shields.io/github/license/lubber-de/stackload.svg)  
 
 ## Features
-- Checks for particular Javascript Logic/existing Objects in order to prevent loading already existing code which was _not_ embedded using stackload
+- Checks for particular JavaScript Logic/existing Objects in order to prevent loading already existing code which was _not_ embedded using stackload
 - Avoids multiple embedding of same files
 - Files will be stacked and loaded synchronously after each other and a callback can be given for each stack
 - Logs missing files to the console if supported
@@ -19,21 +19,21 @@
 - Dynamic parameter handling
 - supports npm semver package naming and loads from jsdelivr 
 - can autoload by a single stackload inclusion using a GET parameter
-- Vanilla Javascript: Does not need other libraries itself :)
+- Vanilla JavaScript: Does not need other libraries itself :)
 
 This small library is especially useful if you want to provide something in one single js file without copying all dependency libraries into it, but still rely on external resources/CDNs, so your single js file stays small and the user does not need to implement or even know what other dependencies are needed to be embedded.  
 So this library is tiny enough to be embedded into your own single-js file library
 
 ## Usage
 
-1) Implement one script tag or copy the code on top of your own library.
-```html
-<script type="text/javascript" src="stackload.min.js"></script>
-```
-2) Call it with an object of configuration. That's it
-```javascript
-stackLoad(filename|fileArray|fileObject|stackObject);
-```
+1. Implement one script tag or copy the code on top of your own library.
+    ```html
+    <script type="text/javascript" src="stackload.min.js"></script>
+    ```
+2. Call it with an object of configuration. That's it
+    ```javascript
+    stackLoad(filename|fileArray|fileObject|stackObject);
+    ```
 You can stack multiple callbacks each having a bunch of files and individual callbacks using the appending `.then` method
 ```javascript
 stackLoad(...).then(filename|fileArray|fileObject|stackObject).then(...);
@@ -90,22 +90,22 @@ stackLoad({
 **url**: `string` (mandatory)
 
 **check**: `string`  
-JS code as a string (! Because this could rely one some previous needed code loaded by stackLoad before) as a dependency if code perhaps already exists.
+JS code as a string (! Because this could rely on some previous needed code loaded by stackLoad before) as a dependency if code perhaps already exists.
 - The (last) statement of the code needs to **end with an expression** (`var a=1,b=2;b<0;`) and _**not**_ a return statement (`var a=1,b=2;return b<0;`). If that expression is either undefined/false/null then the appropriate file will be loaded
-- stackLoad has a little internal helper to get css style properties of a selector path. Just use the function `cssProperties()` within your JS Code
+- stackLoad has a little internal helper to get CSS style properties of a selector path. Just use the function `cssProperties()` within your JS Code
 
 ```javascript
 //cssProperties takes a css selector string and returns all style-object properties
     check: 'cssProperties("ui multiple foo bar classnames").backgroundImage==="none"'
 ```
-- Can be omitted, the file will be loaded immediately then.)
+- Can be omitted, the file will be loaded immediately then.
 
 **type**: `string`  
 If omitted, stackLoad tries to guess it from a possible file extension. Otherwise assumes 'js' as default. Other possible values are:
 - `css`
 - `jsonp`  
 Using jsonp assumes the url already has the probably needed callback function name as part of the url. stackLoad just adds a timestamp to the url to make sure it is not cached 
-- Anything else is considered javascript.
+- Anything else is considered JavaScript.
 
 **noCache**: `boolean`  
 Set to true if you definately want to skip cache-load for the file and force redownloading from the server
@@ -120,7 +120,7 @@ The files will be synchronously loaded in the order of the array. So take care o
 
 **error**: `function(eventObject)`
 - Will be called on _each_ failed load within the current stackObject. The event object will be delivered to the function as a parameter
-- If the given function returns `false` then loading of all remaining files within the current stackObject will be cancelled. It's still possible to start another stackLoad again later.
+- If the given function returns `false` then loading of all remaining files within the current stackObject will be canceled. It's still possible to start another stackLoad again later.
 - Can be omitted
 > Internet Explorer does not trigger failing load events for **css** files!
   
@@ -155,24 +155,24 @@ stackLoad([
 Loading URLs with unguessable file types which won't be JS files
 ```javascript
 stackLoad({ 
-        url:'http://domain.tld/folder/stylesheets/library@version',
-        type: 'css'
+    url:'http://domain.tld/folder/stylesheets/library@version',
+    type: 'css'
 });
 ```
 
 Loading jsonp
 ```javascript
 stackLoad({ 
-        url:'http://domain.tld/foo/bar?callback=testfunc',
-        type: 'jsonp'
+    url:'http://domain.tld/foo/bar?callback=testfunc',
+    type: 'jsonp'
 });
 ```
 
 Prevent Caching / Force Server reload (automatically enabled for jsonp files)
 ```javascript
 stackLoad({ 
-        url:'http://domain.tld/foo/bar.js',
-        noCache: true
+    url:'http://domain.tld/foo/bar.js',
+    noCache: true
 });
 ```
 
@@ -200,7 +200,7 @@ stackLoad({
         // jQuery is available now
         $(function() {
             // ...
-        };
+        });
     }
 });
 
@@ -236,8 +236,8 @@ stackLoad({
 });
 ```
 
-Check for a specific CSS property in order to load a css file (to not only rely on the filename)  
-In this example a HTML tag with assigned class "ui popup" should have an z-index of 1900 if fomantic ui css is already available 
+Check for a specific CSS property in order to load a CSS file (to not only rely on the filename)  
+In this example a HTML tag with assigned class "ui popup" should have a z-index of 1900 if Fomantic UI CSS is already available 
 ```javascript
 stackLoad({
     files: [{
@@ -258,10 +258,10 @@ stackLoad({
 });
 
 // ...
-// Lot's of your code in between
+// Lots of your code in between
 // ...
 
-// stackLoad remembers what it has already loaded,
+// stackLoad remembers what it has already loaded jquery before,
 // so it will skip loading jQuery from the same url again.
 stackLoad({
     files: [
@@ -281,14 +281,13 @@ stackLoad({
 ```
 
 #### Using the error method property
-> Internet Explorer does not trigger failing load events for **css** files!
 
 Do something in case a file is missing
 ```javascript
 stackLoad({
     files: ['foo.css','bar.js'],
     error: function(e){
-        console.log('Missing file:',(e.target.src? e.target.src : e.target.href));
+        console.log('Missing file:', (e.target.src ?? e.target.href));
     }
 });
 ```
@@ -299,7 +298,7 @@ Simply **return false** in your function to make this happen.
 stackLoad({
     files: ['foo.css','bar.js'],
     error: function(e){
-        console.log('Missing file:',(e.target.src? e.target.src : e.target.href));
+        console.log('Missing file:', (e.target.src ?? e.target.href));
         console.log('All remaining files will be cancelled!');
         return false;
     }

@@ -56,7 +56,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial Commit
 
-[Unreleased]: /../compare/v1.0.6...HEAD  
+[Unreleased]: /../compare/v1.1.0...HEAD
+[1.1.0]: /../compare/v1.0.6...v1.1.0
 [1.0.6]: /../compare/v1.0.5...v1.0.6
 [1.0.5]: /../compare/v1.0.4...v1.0.5
 [1.0.4]: /../compare/v1.0.3...v1.0.4
